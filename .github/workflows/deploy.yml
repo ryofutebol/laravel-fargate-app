@@ -72,11 +72,11 @@ jobs:
           DOCKER_BUILDKIT: 1
           ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.repository }}
           ECR_REPOSITORY: ${{ env.SERVICE_NAME }}-${{ env.ENV_NAME }}-${{ SECRET_NAME }}-php
-          run: |
-            docker build \
-            --cache-from=$ECR_REGISTRY/$ECR_REPOSITORY:latest --build-arg BUILDKIT_INLINE_CACHE=1 . \
-            -f infra/docker/nginx/Dockerfile \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        run: |
+          docker build \
+          --cache-from=$ECR_REGISTRY/$ECR_REPOSITORY:latest --build-arg BUILDKIT_INLINE_CACHE=1 . \
+          -f infra/docker/nginx/Dockerfile \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
