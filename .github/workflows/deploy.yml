@@ -24,7 +24,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ secrets.PROD_AWS_ROLE_TO_ASSUME }} # Assume RoleするIAMロールのARN指定
+          role-to-assume: ${{ secrets.PROD_AWS_ASSUME_ROLE_ARN }} # Assume RoleするIAMロールのARN指定
           role-duration-seconds: 1800 # Assume Roleによって得られる権限の有効期限
       - name: Set env vars for prod
         # if: github.ref == 'refs/heads/main'
