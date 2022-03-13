@@ -56,7 +56,7 @@ jobs:
       - name: Push nginx iamge to ecr
         env:
           DOCKER_BUILDKIT: 1
-          ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.repository }}
+          ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.registry }}
           ECR_REPOSITORY: ${{ env.SERVICE_NAME }}-${{ env.ENV_NAME }}-${{ env.SECRET_NAME }}-nginx
         run: |
           docker build \
@@ -70,7 +70,7 @@ jobs:
       - name: Push php image to ecr
         env:
           DOCKER_BUILDKIT: 1
-          ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.repository }}
+          ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.registry }}
           ECR_REPOSITORY: ${{ env.SERVICE_NAME }}-${{ env.ENV_NAME }}-${{ env.SECRET_NAME }}-php
         run: |
           docker build \
