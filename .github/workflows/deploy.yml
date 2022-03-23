@@ -45,14 +45,14 @@ jobs:
         uses: actions/cache@v2 # キャッシュの有効化
         with:
           path: backend/node_modules
-          key: npm-v1-${{ hashFiles('backend/packeage-lock.json') }} # パッケージファイルをハッシュ化
+          key: npm-v1-${{ hashFiles('backend/package-lock.json') }} # パッケージファイルをハッシュ化
       - run: docker-compose exec -T web npm ci
         if: ${{ !steps.cache-npm-ci.outputs.cache-hit }}
       - run: docker-compose exec -T web npm run prod # npm run prodでビルド
       - uses: aws-actions/amazon-ecr-login@v1 # ECRにログイン
         id: amazon-ecr-login
 
-      - name: Push nginx iamge to ecr
+      - name: Push nginx image to ecr
         env:
           DOCKER_BUILDKIT: 1
           ECR_REGISTRY: ${{ steps.amazon-ecr-login.outputs.registry }}
@@ -74,7 +74,7 @@ jobs:
         run: |
           docker build \
             --cache-from=$ECR_REGISTRY/$ECR_REPOSITORY:latest --build-arg BUILDKIT_INLINE_CACHE=1 . \
-            -f infra/docker/nginx/Dockerfile \
+            -f infra/docker/php/Dockerfile \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
