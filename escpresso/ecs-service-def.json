@@ -1,0 +1,60 @@
+{
+  "capacityProviderStrategy": [
+    {
+      "base": 0,
+      "capacityProvider": "FARGATE_SPOT",
+      "weight": 1
+    }
+  ],
+  "deploymentConfiguration": {
+    "deploymentCircuitBreaker": {
+      "enable": false,
+      "rollback": false
+    },
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 100
+  },
+  "desiredCount": 1,
+  "enableECSManagedTags": false,
+  "enableExecuteCommand": true,
+  "healthCheckGracePeriodSeconds": 60,
+  "loadBalancers": [
+    {
+      "containerName": "nginx",
+      "containerPort": 80,
+      "targetGroupArn": "{{ tfstate `data.aws_lb_target_group.this.arn` }}"
+    }
+  ],
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "assignPublicIp": "DISABLED",
+      "securityGroups": [
+        "sg-0e39c668084342ff4"
+      ],
+      "subnets": [
+        "subnet-0b5563ddbac930565",
+        "subnet-008ce066d05c218ed"
+      ]
+    }
+  },
+  "placementConstraints": [],
+  "placementStrategy": [],
+  "platformFamily": "Linux",
+  "platformVersion": "1.4.0",
+  "schedulingStrategy": "REPLICA",
+  "serviceRegistries": [],
+  "tags": [
+    {
+      "key": "Env",
+      "value": "{{ must_env `ENV_NAME` }}"
+    },
+    {
+      "key": "System",
+      "value": "{{ must_env `SYSTEM_NAME` }}"
+    },
+    {
+      "key": "Name",
+      "value": "{{ must_env `SYSTEM_NAME` }}-{{ must_env `ENV_NAME` }}-{{ must_env `SERVICE_NAME` }}"
+    }
+  ]
+}
