@@ -27,9 +27,9 @@ jobs:
           role-to-assume: ${{ secrets.PROD_AWS_ASSUME_ROLE_ARN }} # Assume RoleするIAMロールのARN指定
           role-duration-seconds: 1800 # Assume Roleによって得られる権限の有効期限
       - name: Set env vars for prod
-        if: github.ref == 'refs/heads/main'
+#        if: github.ref == 'refs/heads/main'
         run: echo "ENV_NAME=prod" >> $GITHUB_ENV
-#      - uses: actions/checkout@v2 # GitHub Actionにgit cloneする
+      - uses: actions/checkout@v2 # GitHub Actionにgit cloneする
       - run: docker-compose up -d --build app web # 各種パッケージインストールのためコンテナ起動
 
       - name: Cache composer
